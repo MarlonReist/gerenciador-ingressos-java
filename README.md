@@ -1,55 +1,82 @@
 # Gerenciador de Ingressos Concorrente
 
-Projeto desenvolvido em Java puro com foco em programação concorrente, comunicação em rede com sockets TCP e controle seguro de recursos compartilhados.
+Projeto desenvolvido em Java puro com foco em concorrência, comunicação em rede com sockets TCP e controle seguro de recursos compartilhados.
 
-O sistema simula um servidor de venda de ingressos, no qual múltiplos clientes podem se conectar simultaneamente para realizar compras. Para garantir consistência no acesso à quantidade de ingressos disponíveis, foi utilizado `Lock` (`ReentrantLock`) na seção crítica.
+O sistema simula um servidor de venda de ingressos onde múltiplos clientes podem se conectar simultaneamente para realizar compras. Para garantir consistência, foi utilizado `ReentrantLock` na seção crítica.
 
-## Objetivo
+---
 
-O objetivo deste projeto é demonstrar, na prática, conceitos importantes de desenvolvimento back-end e sistemas concorrentes, como:
+## 🎯 Objetivo
 
-- comunicação cliente-servidor via sockets TCP
-- atendimento simultâneo de múltiplos clientes com threads
-- sincronização de acesso a variável compartilhada
-- prevenção de condição de corrida (race condition)
-- containerização da aplicação com Docker
+Demonstrar na prática conceitos importantes como:
 
-## Tecnologias utilizadas
+- Comunicação cliente-servidor via TCP
+- Concorrência com múltiplas threads
+- Sincronização com Lock
+- Controle de recursos compartilhados
+- Containerização com Docker
+
+---
+
+## 🛠 Tecnologias utilizadas
 
 - Java
 - Socket TCP
 - Threads
-- Lock / ReentrantLock
+- ReentrantLock
 - Docker
 
-## Estrutura do projeto
+---
 
-- `Program`  
-  Classe principal responsável por iniciar o servidor.
+## 📂 Estrutura do projeto
 
-- `Bilheteria`  
-  Classe que controla a quantidade de ingressos disponíveis e protege a seção crítica com `Lock`.
+- **Program**  
+  Inicializa o servidor
 
-- `ServidorIngressos`  
-  Responsável por abrir a porta do servidor e aceitar conexões de clientes.
+- **ServidorIngressos**  
+  Abre a porta e aceita conexões
 
-- `ClienteHandler`  
-  Classe que trata cada cliente em uma thread separada.
+- **ClienteHandler**  
+  Trata cada cliente em uma thread separada
 
-## Como funciona
+- **Bilheteria**  
+  Controla os ingressos e aplica sincronização
 
-O servidor inicia com uma quantidade definida de ingressos disponíveis.
+---
 
-Quando um cliente se conecta e envia o comando `COMPRAR`, o servidor:
+## ⚙️ Funcionamento
 
-1. recebe a requisição
-2. cria uma thread para atender o cliente
-3. tenta realizar a compra de forma sincronizada
-4. retorna uma resposta informando se a compra foi concluída ou se os ingressos acabaram
+O servidor inicia com uma quantidade de ingressos disponíveis.
 
-## Exemplo de fluxo
-
-Cliente envia:
+Quando um cliente envia:
 
 ```text
 COMPRAR
+
+O sistema:
+
+Recebe a requisição
+Cria uma thread para o cliente
+Tenta realizar a compra
+Retorna o resultado
+
+Exemplo de resposta:
+
+Ingresso comprado
+
+ou
+
+Ingresso indisponível
+Concorrência
+
+Cada cliente é tratado em uma thread independente.
+
+A operação crítica de decremento dos ingressos é protegida por Lock, evitando problemas como:
+
+Race condition
+Venda duplicada
+Inconsistência de dados
+
+👨‍💻 Autor
+Marlon Reis
+---
